@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: var(--bg-color);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Edit Modal styling */
+        #edit-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="hero"
+        style="min-height: 100vh; display: flex; justify-content: center; align-items: center; padding-top: 0;">
+        <div class="card" style="width: 100%; max-width: 400px; padding: 40px; position: relative; z-index: 2;">
+            <h2 style="text-align: center; margin-bottom: 30px; color: var(--forest-green);">Admin Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="text" id="username" class="form-control" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" class="form-control" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+            <p id="login-error" style="color: #ff3366; margin-top: 15px; text-align: center; display: none;"></p>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="hidden">
+        <div class="card" style="width: 100%; max-width: 500px; padding: 40px; position: relative;">
+            <button id="close-modal-btn"
+                style="position: absolute; top: 15px; right: 20px; background: none; border: none; color: var(--forest-green); font-size: 2rem; cursor: pointer;">&times;</button>
+            <h2 style="margin-bottom: 20px; color: var(--forest-green);">Edit Item</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                <input type="hidden" id="edit-type">
+                <div id="edit-form-fields"></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Save
+                    Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="admin-layout hidden">
+        <aside class="sidebar">
+            <h2 style="margin-bottom: 40px; color: var(--forest-green);">JD. Admin</h2>
+            <ul style="list-style: none;">
+                <li style="margin-bottom: 15px;"><a href="#" class="admin-nav-link active"
+                        data-target="manage-projects">Projects</a></li>
+                <li style="margin-bottom: 15px;"><a href="#" class="admin-nav-link"
+                        data-target="manage-skills">Skills</a></li>
+                <li style="margin-bottom: 15px;"><a href="#" class="admin-nav-link"
+                        data-target="manage-certificates">Certificates</a></li>
+            </ul>
+            <div style="flex-grow: 1;"></div>
+            <a href="/" class="btn btn-outline" style="margin-top: 20px; text-align: center; text-decoration:none;">View
+                Site</a>
+            <button id="logout-btn" class="btn btn-outline" style="margin-top: 10px; width: 100%;">Logout</button>
+        </aside>
+
+        <main class="admin-content">
+            <h1 class="section-title" style="transform: none; left: 0; margin-bottom: 40px; text-align:left;">Dashboard
+            </h1>
+
+            <!-- Projects Panel -->
+            <div id="manage-projects" class="admin-panel active">
+                <div class="card">
+                    <h3 style="color: var(--forest-green); margin-bottom: 15px;">Add New Project</h3>
+                    <form id="add-project-form" style="margin-top: 20px;">
+                        <div class="form-group"><input type="text" id="proj-title" class="form-control"
+                                placeholder="Project Title" required></div>
+                        <div class="form-group"><textarea id="proj-desc" class="form-control" placeholder="Description"
+                                rows="3" required></textarea></div>
+                        <div style="display: flex; gap: 15px;">
+                            <div class="form-group" style="flex:1;"><input type="text" id="proj-demo"
+                                    class="form-control" placeholder="Demo URL"></div>
+                            <div class="form-group" style="flex:1;"><input type="text" id="proj-repo"
+                                    class="form-control" placeholder="Repo URL"></div>
+                        </div>
+                        <div class="form-group"><input type="text" id="proj-img" class="form-control"
+                                placeholder="Image URL (Optional)"></div>
+                        <button type="submit" class="btn btn-primary">Add Project</button>
+                    </form>
+                </div>
+
+                <h3 style="margin-top: 40px; margin-bottom: 20px; color: var(--forest-green);">Existing Projects</h3>
+                <div class="card" id="admin-projects-list" style="padding: 0;"></div>
+            </div>
+
+            <!-- Skills Panel -->
+            <div id="manage-skills" class="admin-panel">
+                <div class="card">
+                    <h3 style="color: var(--forest-green); margin-bottom: 15px;">Add New Skill</h3>
+                    <form id="add-skill-form" style="margin-top: 20px;">
+                        <div style="display: flex; gap: 15px;">
+                            <div class="form-group" style="flex:2;"><input type="text" id="skill-name"
+                                    class="form-control" placeholder="Skill Name (e.g., React)" required></div>
+                            <div class="form-group" style="flex:1;"><input type="text" id="skill-category"
+                                    class="form-control" placeholder="Category (e.g., Frontend)" required></div>
+                            <div class="form-group" style="flex:1;"><input type="number" id="skill-prof"
+                                    class="form-control" placeholder="Proficiency (0-100)" value="80" required></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Skill</button>
+                    </form>
+                </div>
+                <h3 style="margin-top: 40px; margin-bottom: 20px; color: var(--forest-green);">Existing Skills</h3>
+                <div class="card" id="admin-skills-list" style="padding: 0;"></div>
+            </div>
+
+            <!-- Certificates Panel -->
+            <div id="manage-certificates" class="admin-panel">
+                <div class="card">
+                    <h3 style="color: var(--forest-green); margin-bottom: 15px;">Add New Certificate</h3>
+                    <form id="add-cert-form" style="margin-top: 20px;">
+                        <div class="form-group"><input type="text" id="cert-title" class="form-control"
+                                placeholder="Certificate Title" required></div>
+                        <div style="display: flex; gap: 15px;">
+                            <div class="form-group" style="flex:1;"><input type="text" id="cert-issuer"
+                                    class="form-control" placeholder="Issuer (e.g., Coursera)" required></div>
+                            <div class="form-group" style="flex:1;"><input type="text" id="cert-date"
+                                    class="form-control" placeholder="Date (e.g., 2025)"></div>
+                        </div>
+                        <div class="form-group"><input type="text" id="cert-url" class="form-control"
+                                placeholder="Credential URL"></div>
+                        <button type="submit" class="btn btn-primary">Add Certificate</button>
+                    </form>
+                </div>
+                <h3 style="margin-top: 40px; margin-bottom: 20px; color: var(--forest-green);">Existing Certificates
+                </h3>
+                <div class="card" id="admin-certs-list" style="padding: 0;"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

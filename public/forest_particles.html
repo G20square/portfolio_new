@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Canopy Particle Background</title>
+    <!-- tsParticles bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <style>
+        /* Base Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            /* Typography requirement */
+            font-family: 'FreeSans', Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            /* Soft ivory gradient background */
+            background: #faf9f6;
+            background: linear-gradient(135deg, #faf9f6 0%, #f0f2ea 100%);
+            color: #2d4a2b;
+            /* Forest Green Text */
+        }
+
+        /* Fixed particle wrapper behind content */
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #tsparticles canvas {
+            display: block;
+            pointer-events: auto;
+        }
+
+        /* Re-enable pointer events on canvas for interactivity */
+
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .glass-panel {
+            background: rgba(250, 249, 246, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(45, 74, 43, 0.15);
+            padding: 50px 70px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(45, 74, 43, 0.08);
+            pointer-events: auto;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'FreeSerif', 'Times New Roman', serif;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #2d4a2b;
+            text-shadow: 0 2px 4px rgba(45, 74, 43, 0.1);
+        }
+
+        p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #7d8471;
+            /* Sage */
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 35px;
+            background: #2d4a2b;
+            color: #faf9f6;
+            border: 2px solid #2d4a2b;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            font-family: 'FreeSans', Helvetica, Arial, sans-serif;
+        }
+
+        .btn:hover {
+            background: #7d8471;
+            border-color: #7d8471;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(45, 74, 43, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Particle Container -->
+    <div id="tsparticles"></div>
+
+    <!-- Content Demo -->
+    <div class="content">
+        <div class="glass-panel">
+            <h1>Forest Canopy</h1>
+            <p>A natural, grounded aesthetic bridging dense forest canopies and delicate neural technology. Hover over
+                the roots to feel the subtle organic energy flow.</p>
+            <a href="#" class="btn">Explore Now</a>
+        </div>
+    </div>
+
+    <!-- Particle Configuration Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            tsParticles.load("tsparticles", {
+                fullScreen: { enable: false, zIndex: 1 },
+                fpsLimit: 60,
+                particles: {
+                    number: { value: 65, density: { enable: true, area: 800 } },
+                    /* Forest Green, Sage, Olive */
+                    color: { value: ["#2d4a2b", "#7d8471", "#a4ac86"] },
+                    shape: { type: "circle" },
+                    /* Soft glowing breathing effect */
+                    opacity: {
+                        value: { min: 0.15, max: 0.6 },
+                        animation: { enable: true, speed: 0.4, sync: false, minimumValue: 0.1 }
+                    },
+                    size: {
+                        value: { min: 1, max: 2.5 },
+                        animation: { enable: true, speed: 0.5, sync: false, minimumValue: 0.5 }
+                    },
+                    /* Root/vine connections */
+                    links: { enable: true, distance: 160, color: "#a4ac86", opacity: 0.4, width: 1, triangles: { enable: false } },
+                    move: {
+                        enable: true, speed: 0.3, direction: "none", random: true, straight: false,
+                        outModes: { default: "bounce" }
+                    }
+                },
+                interactivity: {
+                    detectsOn: "window",
+                    events: {
+                        onHover: {
+                            enable: true,
+                            mode: "grab",
+                            /* Subtle parallax depth enhancement */
+                            parallax: { enable: true, force: 15, smooth: 20 }
+                        },
+                        onClick: { enable: true, mode: "push" },
+                        resize: true
+                    },
+                    modes: {
+                        grab: { distance: 180, links: { opacity: 0.6, color: "#2d4a2b" } },
+                        push: { quantity: 1 } /* Gentle, not aggressive */
+                    }
+                },
+                detectRetina: true
+            }).then(() => {
+                console.log("Forest particles loaded securely!");
+            });
+        });
+    </script>
+</body>
+
+</html>
